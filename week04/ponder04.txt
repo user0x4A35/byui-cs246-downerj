@@ -1,0 +1,50 @@
+# 04 Ponder : Weekly Reflection
+
+1. Describe one challenge your team experienced working on the GitHub activity.
+We had no challenges.
+
+
+2. What are the advantages to using a version control system like git?
+Git allows developers to maintain a history——which is very useful for tracking changes——as well as branching——which is useful for testing and experimenting without breaking the production instance of a product.
+
+
+3. What is the difference between git and GitHub?
+"Git" is open-source software designed by Linus Torvalds used for version control.
+GitHub is merely one of many cloud applications for hosting repositories and simply uses git.
+
+
+4. What is the purpose of branching in git?
+Branching is a tool to allow developers to experiment without breaking the prodcution instance. It also allows each user to maintain his/her local copy of the code and makes it easier to merge his/her code with the main repository.
+
+
+5. Imagine you're working as a software developer for someone who doesn't have any experience with programming. How would you describe version control and git to your employer?
+Version control is like an automated copy-editor for code. Different people can have their own local copy of the work and make any changes and markups that they want——just as one would markup his/her own copy of a physical document——and then submit it to the copy-editor to compile into a finished product along with all the other changes everyone else made.
+
+
+6. After completing the assignments this week, what questions do you still have?
+I have no further questions.
+
+
+7. A common git-related interview question is "How do you revert a commit that has already been pushed and made public?". How would you answer that question?
+You would execute "git revert" and specify the commit hash or reference in question.
+You would then execute "git push" to submit the new changes.
+
+
+8. Of all of the resources and tutorials in this week's assignments, which was the _most_ helpful to you and why?
+The Interactive Git Tutorial was very helpful as it provided an easy-to-follow graphical representation of the git processes.
+
+
+9. Of all of the resources and tutorials in this week's assignments, which was the _least_ helpful to you and why?
+Even though the Katacoda reference was very helpful as well (especially since it required more hands-on command execution), it provided almost no visuals which made it hard to follow what was really going on and why.
+
+
+
+10. How many hours did you spend on this class this week?
+
+04 Prepare - 0.5
+04 Teach - 0.5
+04 Prove - 3.5
+04 Ponder - 0.25
+----------------------------
+Total Hours - 4.75 
+
