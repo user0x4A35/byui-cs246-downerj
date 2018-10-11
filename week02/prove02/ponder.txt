@@ -1,0 +1,65 @@
+# 02 Ponder : Weekly Reflection
+
+1. Describe one challenge your team experienced working on the Vacation Calendar activity.
+I had no challenges working on the team activity.
+
+
+2. For the Game of Life assignment, what advantages do you see in using interfaces to define creature behaviors, rather than subclasses?
+Interfaces allow implementing classes to define/override methods without the baggage of other pre-defined methods, such as would be found
+in a parent class.
+
+
+3. Did you complete the Stretch Challenge for the Game of Life Assignment? If so, briefly describe what you did, and how you structured your code.
+Yes; I added a Farmer that:
+- Moves in a direction (moving one to its respective right as it wraps around the screen).
+- Plants a new Plant in every 5 cells if that cell is unoccupied by another Plant.
+- Harvests "seeds" which increases its ability to plant in a given turn.
+- Modified the Wolf to attack Farmers as well as Animals.
+
+
+4. What did you learn from comparing your code to the teacher's solution?
+I found it interesting that the teacher using an if-else clause to determine which neighbors to sense for the Wolf in the
+senseNeighbors() method. This is more fool-proof than my method, but I figured it would be more succint the way I did it which was
+to create an array that points to the neighbors in clockwise order and loop through the array, checking for Animals, starting
+with the index that corresponds to the Wolf's current position and wrapping arround the array as needed.
+
+
+5. After completing the assignments this week, what questions do you still have?
+I do not have any questions at this time.
+
+
+6. If you were getting paid to work on this week's Prove assignment and you had another month to work on it, what would you add?
+I would:
+- Add more entities
+- Test the determinism of the game to ensure it remains interesting for a long period of time
+- Add more robust checks to the code
+- Optimize my own code, especially the senseNeighbors() implementation in the Wolf class.
+
+
+7. A common Java interview question is "describe the difference between an interface and an abstract class". How would you answer that question?
+An abstract class is a non-instantiable parent class that can both:
+- Declare empty methods, and
+- Define methods and member variables
+An interface, on the other hand, is a non-instantiable structure that can only:
+- Declare empty methods, and
+- Define constants (static final members)
+
+
+8. Of all of the resources in this week's Preparation assignment, which was the _most_ helpful to you and why?
+The links describing Interfaces was the most helpful, by far.
+
+
+9. Of all of the resources in this week's Preparation assignment, which was the _least_ helpful to you and why?
+Since I'm familiar with Java already, most other external resources weren't that helpful to me.
+
+
+10. How many hours did you spend on this class this week?
+
+02 Prepare - 0.5
+02 Teach - 0.75
+02 Prove 1st Attempt - 4.0
+02 Prove 2nd Attempt - N/A
+02 Ponder - 0.25
+----------------------------
+Total Hours - 5.5
+

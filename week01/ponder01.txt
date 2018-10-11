@@ -1,0 +1,55 @@
+# 01 Ponder : Weekly Reflection
+
+1. Describe one challenge your team experienced working on the Hello World activity.
+My classmates had trouble understanding how to import classes such as java.util.Scanner, but we were able to resolve those issues through a Google search on the documentation.
+Also, a classmate and I had issues after accidentally enabling "Vim mode" in IntelliJ which made editing documents difficult.
+
+
+2. For the NSA Cryptography assignment, what did you learn about how Java parameter passing differs from C++?
+Java passes references as opposed to C/C++ which pass *by reference*: in other words, a variable parameter can be reassigned but will not change the value at the original address; instead, it will effectively "hide" the old reference for the remainder of the function's scope.
+C/C++, on the other hand, passes by reference, meaning that parameters that are reassigned will change the original reference outside of the function.
+
+
+3. Did you complete the Stretch Challenge for the NSA Cryptography? If so, briefly describe what you did, and how you structured your code.
+Yes. I created a whole try block inside of a while loop. When a WeakElementException is caught, the loop restarts and the user is prompted to create a password again; if not (and if all other functions work correctly), then the loop will end.
+
+
+4. What did you learn from comparing your code to the teacher's solution?
+I should have had separate loops (and thus separate try blocks) for creating a password and for verifying the password (e.g. login). I also realize that by creating a *final* java.util.Scanner property of my Test class would have been more logical and simpler to implement.
+
+
+5. After completing the assignments this week, what questions do you still have?
+These questions are based on java.util.Scanner:
+1. Is it necessary to close java.util.Scanners before exiting the program? Most IDEs catch if there's no resource closure, but is that important in Java?
+2. Why does closing and reopening/reinstantiating java.util.Scanners not flush the input stream but instead throw java.util.NoSuchElementExceptions? (In C++, for example, it is possible to flush the input stream.)
+
+
+6. If you were getting paid to work on this week's Prove assignment and you had another month to work on it, what would you add?
+I would:
+1. Refactor my Test code into separate loop/try blocks.
+2. Create javadocs for each class.
+3. Make the code more robust with more diverse error handling.
+
+
+7. A common Java interview question is "What are javadocs and when should they be used?". How would you answer that question?
+Javadocs are documentation of Java classes formatted in the style of official Java documentation and should be used almost always in a development environment. For personal projects, they're not as necessary, but once the code is transfered as units and/or libraries between teams and organizations, the role of documentation (as with any language) becomes vital.
+
+
+8. Of all of the resources in this week's Preparation assignment, which was the _most_ helpful to you and why?
+Because I've used Java before, there was not much new to me except for the Stack Overflow post on parameter-passing which was extremely englightening.
+
+
+9. Of all of the resources in this week's Preparation assignment, which was the _least_ helpful to you and why?
+Most resources, again, weren't that useful to me personally, but the encryption vs. hashing link was not that useful because it didn't pertain directly to the assignment (though it is nonetheless interesting).
+
+
+10. How many hours did you spend on this class this week?
+
+01 Prepare - 0.5 
+01 Teach - 0.5
+01 Prove 1st Attempt - 2.0
+01 Prove 2nd Attempt - N/A
+01 Ponder - 0.5
+----------------------------
+Total Hours - 3.5
+

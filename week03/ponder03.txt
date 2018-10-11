@@ -1,0 +1,53 @@
+# 03 Ponder : Weekly Reflection
+
+1. Describe one challenge your team experienced working on the JSON parsing activity.
+Determining that the GSON API will break with null-terminated strings was confusing.
+
+
+2. For the Twitter API assignment, what did you learn about how APIs work?
+APIs use numerous keys to validate different layers of API calls, allowing it to be much more secure.
+
+
+3. Did you complete the Stretch Challenge for the Twitter API Assignment? If so, briefly describe which method you used.
+Yes. I used a custom Comparator (instead of the lambda function) and added each new sorted item to a linked hash map.
+
+
+4. What did you learn from comparing your code to the teacher's solution?
+The main thing is that my implementation of the sorting was rather complicated (derived from https://www.mkyong.com/java/how-to-sort-a-map-in-java).
+I created a whole new map for the sorted tweets even though I could've simply sorted a List of the keys and iterated over that, like the teacher did.
+
+
+5. After completing the assignments this week, what questions do you still have?
+I have no questions at this time.
+
+
+6. Aside from just searching for tweets with a given hashtag, what is another use you could see for the twitter API?
+There are many, including: 
+- automating tweets at regular intervals or in response to a trigger
+- sending and receiving private messages
+- analyzing trends on Twitter
+
+
+7. A common Java interview question is "Describe what an API is and how it's used". (Sometimes people refer to these types of APIs as "REST APIs") How would you answer that question?
+An API is a link for programmers to access and automate services from a server, app, or other base service.
+Specifically, RESTful APIs use HTTP calls to communicate with a server for an app to use and modify data provided by the service.
+
+
+8. Of all of the resources in this week's reading, which was the _most_ helpful to you and why?
+The GSON and Twitter4J API documentations were the most helpful.
+
+
+9. Of all of the resources in this week's reading, which was the _least_ helpful to you and why?
+Most everything was really helpful this week.
+
+
+10. How many hours did you spend on this class this week?
+
+01 Prepare - 0.5
+01 Teach - 2.0
+01 Prove 1st Attempt - 4.0
+01 Prove 2nd Attempt - N/A
+01 Ponder - 0.5
+----------------------------
+Total Hours - 7.0
+

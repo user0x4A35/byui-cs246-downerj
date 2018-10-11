@@ -1,0 +1,8 @@
+Consumer API keys:
+c1UwuyTa9v7zOrIaeKU0R4jKX (API key)
+1yEH9mToowfYKlmMmHrlSjHymtLE2qsg7LfRJLrOa2AblSKJUp (API secret key)
+
+Access token & access token secret
+1045710997556613120-4xELKHRPaodBeFgZ1yiulQGR14cwMc (Access token)
+I8CEHk6L4w8VY59eauMozABTbnlIj4AqaGvgwwf0k7Pvo (Access token secret)
+Read and write (Access level)
