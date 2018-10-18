@@ -6,4 +6,6 @@
     <string name="label_verse">Verse</string>
     <string name="button_view">View</string>
     <string name="text_blank"></string>
+    <string name="button_save">Save Scripture</string>
+    <string name="button_load">Load Scripture</string>
 </resources>
