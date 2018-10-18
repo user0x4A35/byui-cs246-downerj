@@ -3,11 +3,13 @@ package io.github.user0x4a35.scripturedude;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = "MainActivity";
     public static final String MSG_BOOK = "io.github.user0x4a35.scripturedude.BOOK";
     public static final String MSG_CHAPTER = "io.github.user0x4a35.scripturedude.CHAPTER";
     public static final String MSG_VERSE = "io.github.user0x4a35.scripturedude.VERSE";
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MSG_BOOK, book);
         intent.putExtra(MSG_CHAPTER, chapter);
         intent.putExtra(MSG_VERSE, verse);
+
+        Log.d(TAG, String.format("About to create intent with %s %s:%s",
+            book, chapter, verse
+        ));
         startActivity(intent);
     }
 }
