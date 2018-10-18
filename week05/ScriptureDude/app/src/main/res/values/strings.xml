@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ScriptureDude</string>
+    <string name="welcome_prompt">What is your favorite scripture?</string>
+    <string name="label_book">Book</string>
+    <string name="label_chapter">Chapter</string>
+    <string name="label_verse">Verse</string>
+    <string name="button_view">View</string>
+    <string name="text_blank"></string>
+</resources>
