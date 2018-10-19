@@ -1,0 +1,48 @@
+# 05 Ponder : Weekly Reflection
+
+1. Describe one challenge your team experienced working on the Android activity.
+The only challege we had was that Inessa's laptop couldn't connect to any of our Android devices with ADB.
+
+
+2. What is the difference between an Activity and an Intent?
+An Activity is essentially the *view* that the end-user interacts with (including the necessary event callbacks).
+An Intent is a separate event for passing data between activities.
+
+
+3. Describe how the onCreate() callback works.
+The onCreate() callback of an activity is fired when the activity is loaded into memory from disk (via an intent or from app load).
+It's essentially the "main" method of an activity.
+
+
+4. What's the biggest challenge you've experienced regarding Android development compared to pure Java development?
+The biggest challenge for me has been positioning and sizing. Even though this is something I've experienced a bit before using JavaFX on the desktop (as well as with CSS in its own right), it's still a concept I'm struggling with.
+
+
+5. After completing the assignments this week, what questions do you still have?
+I have no questions at this time.
+
+
+6. A common Android-related interview question is "What's the difference between onPause() and onDestroy() and what kinds of things might you do in those functions?". How would you answer that question?
+onPause() is called when the activity is still in view but not yet stopped. This happens when either a) a different activity is being called and is loading; or b) the devices "view open windows" button is clicked and the app's window is still visible in the list.
+Very little should be done here to save data to disk or to close network connections.
+onDestory() is called when the activity is destroyed along with the rest of the app. This happens when: a) the user quits the app; or b) the system needs more memory for a higher-priority app; or c) the system faults and reboots.
+This is typically where resources are cleaned up, connections are closed, and data is saved to disk.
+
+
+7. Of all of the resources and tutorials in this week's assignments, which was the _most_ helpful to you and why?
+All of the resources were equally helpful.
+
+
+8. Of all of the resources and tutorials in this week's assignments, which was the _least_ helpful to you and why?
+N/A
+
+
+9. How many hours did you spend on this class this week?
+
+05 Prepare - 0.5 
+05 Teach - 0.5
+05 Prove - 2.5
+05 Ponder - 0.5
+----------------------------
+Total Hours - 4.0
+
