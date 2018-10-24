@@ -4,4 +4,10 @@
     <string name="bt_load">Load</string>
     <string name="bt_clear">Clear</string>
     <string name="toast_saved">File saved!</string>
+    <string name="toast_error_write">Error writing to file</string>
+    <string name="toast_error_create">Error creating file</string>
+    <string name="toast_error_no_file">File not found</string>
+    <string name="toast_error_read">Error reading from file</string>
+    <string name="toast_error_nan">Not a number</string>
+    <string name="toast_loaded">File loaded!</string>
 </resources>
