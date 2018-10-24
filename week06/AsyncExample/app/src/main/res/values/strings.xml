@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AsyncExample</string>
+    <string name="bt_create">Create</string>
+    <string name="bt_load">Load</string>
+    <string name="bt_clear">Clear</string>
+    <string name="toast_saved">File saved!</string>
+</resources>
