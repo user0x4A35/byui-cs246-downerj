@@ -10,4 +10,6 @@
     <string name="toast_error_read">Error reading from file</string>
     <string name="toast_error_nan">Not a number</string>
     <string name="toast_loaded">File loaded!</string>
+    <string name="toast_cleared">List cleared!</string>
+    <string name="toast_no_items">No items in list</string>
 </resources>
