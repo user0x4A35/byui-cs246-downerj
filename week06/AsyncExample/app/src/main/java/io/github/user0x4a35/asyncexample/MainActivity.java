@@ -27,13 +27,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     private static final String FILE_NAME = "numbers.txt";
     private static final String TAG = "MainActivity";
-    private static final int LOCK_TAG_NONE = 0;
-    private static final int LOCK_TAG_CREATE = 1;
-    private static final int LOCK_TAG_LOAD = 2;
-    private static final int LOCK_TAG_CLEAR = 3;
     private ArrayAdapter<Integer> numbersAdapter;
-    private int lock;
     private ProgressBar progressBar;
+    private ProcessLock lock;
 
     /**
      * MAIN ACTIVITY : ON CREATE
@@ -58,38 +54,75 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setMax(10);
 
         // set lock to released
-        lock = LOCK_TAG_NONE;
+        lock = new ProcessLock();
     }
 
     /**
-     * Acquires the thread lock if available.
-     * @param tag The tag of the calling process
-     * @return Whether or not the lock was successfully acquired
+     * MAIN ACTIVITY : NOTIFY USER
+     * This creates a Toast on the UI thread.
+     * @param stringResID The resource ID of the message string
      */
-    public boolean acquireLock(int tag) {
-        final Context context = getApplicationContext();
-        if (lock == LOCK_TAG_NONE) {
-            lock = tag;
-            return true;
-        } else {
-            Toast.makeText(
-                    context,
-                    getResources().getText(R.string.toast_busy),
-                    Toast.LENGTH_LONG
-            ).show();
-            return false;
-        }
+    public void notifyUser(int stringResID) {
+        final Context CONTEXT = getApplicationContext();
+        final int MSG_ID = stringResID;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(
+                        CONTEXT,
+                        getResources().getText(MSG_ID),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
     }
 
     /**
-     * RELEASE LOCK
-     * Releases the thread lock if associated with the calling process.
-     * @param tag The tag of the calling process
+     * MAIN ACTIVITY : ADD NUMBER TO NUMBER LIST
+     * This adds a number to the activity's number list on the UI thread.
+     * @param num The number to be added
      */
-    public void releaseLock(int tag) {
-        if (lock == tag) {
-            lock = LOCK_TAG_NONE;
-        }
+    public void addNumberToList(int num) {
+        final int NUM = num;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                numbersAdapter.add(NUM);
+            }
+        });
+
+    }
+
+    /**
+     * MAIN ACTIVITY : CLEAR NUMBER LIST
+     * This clears the activity's number list on the UI thread.
+     */
+    public void clearNumberList() {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                numbersAdapter.clear();
+            }
+        });
+    }
+
+    /**
+     * MAIN ACTIVITY : UPDATE PROGRESS BAR
+     * This updates the activity's progress bar on the UI thread.
+     * @param progress The progress count to update with
+     */
+    public void updateProgressBar(int progress) {
+        final int PROGRESS = progress;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                progressBar.setProgress(PROGRESS);
+            }
+        });
+    }
+
+    /**
+     * MAIN ACTIVITY : CLEAR PROGRESS BAR
+     * (Alias) This clears the progress bar on the UI thread.
+     */
+    public void clearProgressBar() {
+        updateProgressBar(0);
     }
 
     /**
@@ -101,64 +134,63 @@ public class MainActivity extends AppCompatActivity {
      * @param view The calling view (e.g. button)
      */
     public void createFile(View view) {
-        final Context context = getApplicationContext();
-        if (!acquireLock(LOCK_TAG_CREATE)) {
+        final Context CONTEXT = getApplicationContext();
+        final int LOCK_ID = lock.acquire();
+        if (LOCK_ID == 0) {
+            notifyUser(R.string.toast_error_busy);
             return;
         }
 
         new Thread(new Runnable() {
             public void run() {
                 FileOutputStream outputStream;
-                String toastMessage = "";
 
-                // save the file
+                // create the file
                 try {
-                    outputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                    outputStream = CONTEXT.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                } catch (FileNotFoundException fnfe) {
+                    notifyUser(R.string.toast_error_create);
+                    Log.d(TAG, fnfe.getMessage());
+                    lock.release(LOCK_ID);
+                    return;
+                }
 
-                    // initialize the progress & bar
-                    int count = 0;
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(0);
-                            numbersAdapter.clear();
-                        }
-                    });
+                // initialize the progress & bar
+                int count = 0;
+                clearProgressBar();
+                clearNumberList();
 
-                    // save each number, one at a time
-                    for (int i = 1; i <= 10; i++) {
+                // save each number, one at a time
+                for (int i = 1; i <= 10; i++) {
+                    try {
                         String str = String.format(Locale.US, "%d%n", i);
                         outputStream.write(str.getBytes());
-                        
+
                         // update the UI
-                        final int c = ++count;
-                        MainActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                progressBar.setProgress(c);
-                            }
-                        });
+                        updateProgressBar(++count);
 
                         // wait for 1/4 second
                         Thread.sleep(250);
+                    } catch (InterruptedException ie) {
+                        Log.d(TAG, ie.getMessage());
+                    } catch (IOException ioe) {
+                        notifyUser(R.string.toast_error_write);
+                        Log.d(TAG, ioe.getMessage());
+                        lock.release(LOCK_ID);
+                        return;
                     }
-                    outputStream.close();
-                    toastMessage = getResources().getString(R.string.toast_saved);
-                } catch (FileNotFoundException fnfe) {
-                    toastMessage = getResources().getString(R.string.toast_error_create);
-                } catch (IOException ioe) {
-                    toastMessage = getResources().getString(R.string.toast_error_write);
-                } catch (InterruptedException ie) {
-                    Log.d(TAG, ie.getMessage());
                 }
 
-                // notify
-                final String message = toastMessage;
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    }
-                });
+                // close the file
+                try {
+                    outputStream.close();
+                    notifyUser(R.string.toast_saved);
+                } catch (IOException ioe) {
+                    notifyUser(R.string.toast_error_write);
+                    Log.d(TAG, ioe.getMessage());
+                }
 
-                releaseLock(LOCK_TAG_CREATE);
+                lock.release(LOCK_ID);
             }
         }).start();
     }
@@ -173,35 +205,42 @@ public class MainActivity extends AppCompatActivity {
      * @param view The calling view (e.g. button)
      */
     public void loadFile(View view) {
-        final Context context = getApplicationContext();
-        if (!acquireLock(LOCK_TAG_LOAD)) {
+        final Context CONTEXT = getApplicationContext();
+        final int LOCK_ID = lock.acquire();
+        if (LOCK_ID == 0) {
+            notifyUser(R.string.toast_error_busy);
             return;
         }
 
         new Thread(new Runnable() {
             public void run() {
                 FileInputStream inputStream;
-                String toastMessage = "";
                 StringBuilder buffer = new StringBuilder();
 
-                // load the file
-                try {
-                    // initialize the progress & bar
-                    int count = 0;
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(0);
-                            numbersAdapter.clear();
-                        }
-                    });
+                // initialize the progress & bar
+                int count = 0;
+                clearProgressBar();
+                clearNumberList();
 
-                    inputStream = context.openFileInput(FILE_NAME);
-                    int ch;
-                    while ((ch = inputStream.read()) >= 0) {
+                // open the file
+                try {
+                    inputStream = CONTEXT.openFileInput(FILE_NAME);
+                } catch (FileNotFoundException fnfe) {
+                    notifyUser(R.string.toast_error_no_file);
+                    Log.d(TAG, fnfe.getMessage());
+                    lock.release(LOCK_ID);
+                    return;
+                }
+
+                // load the file
+                int ch = 0;
+                do {
+                    try {
+                        ch = inputStream.read();
                         // if inside of a line...
                         if (ch != '\n') {
                             buffer.append((char) ch);
-                        // if at the end of a line...
+                            // if at the end of a line...
                         } else {
                             // parse the number and clear the buffer
                             String strNum = buffer.toString();
@@ -209,42 +248,35 @@ public class MainActivity extends AppCompatActivity {
                             buffer.delete(0, buffer.length());
 
                             // update the UI
-                            final int c = ++count;
-                            final int n = num;
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    progressBar.setProgress(c);
-                                    numbersAdapter.add(n);
-                                }
-                            });
+                            updateProgressBar(++count);
+                            addNumberToList(num);
 
                             // wait for 1/4 second
                             Thread.sleep(250);
                         }
+                    } catch (IOException ioe) {
+                        notifyUser(R.string.toast_error_read);
+                        Log.d(TAG, ioe.getMessage());
+                        lock.release(LOCK_ID);
+                        return;
+                    } catch (NumberFormatException nfe) {
+                        notifyUser(R.string.toast_error_nan);
+                        Log.d(TAG, nfe.getMessage());
+                    } catch (InterruptedException ie) {
+                        Log.d(TAG, ie.getMessage());
                     }
+                } while (ch >= 0);
+
+                // close the file
+                try {
                     inputStream.close();
-                    toastMessage = getResources().getString(R.string.toast_loaded);
-                } catch (FileNotFoundException fnfe) {
-                    toastMessage = getResources().getString(R.string.toast_error_no_file);
-                } catch (IOException e) {
-                    toastMessage = getResources().getString(R.string.toast_error_read);
-                } catch (InterruptedException ie) {
-                    Log.d(TAG, ie.getMessage());
-                    return;
-                } catch (NumberFormatException nfe) {
-                    String msg = getResources().getString(R.string.toast_error_nan);
-                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                    notifyUser(R.string.toast_loaded);
+                } catch (IOException ioe) {
+                    notifyUser(R.string.toast_error_read);
+                    Log.d(TAG, ioe.getMessage());
                 }
 
-                // notify
-                final String message = toastMessage;
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                releaseLock(LOCK_TAG_LOAD);
+                lock.release(LOCK_ID);
             }
         }).start();
     }
@@ -255,24 +287,21 @@ public class MainActivity extends AppCompatActivity {
      * @param view The calling view (e.g. button)
      */
     public void clearList(View view) {
-        final Context context = getApplicationContext();
-        if (!acquireLock(LOCK_TAG_CLEAR)) {
+        final int LOCK_ID = lock.acquire();
+        if (LOCK_ID == 0) {
+            notifyUser(R.string.toast_error_busy);
             return;
         }
 
-        // construct the message conditionally
-        String msg;
+        progressBar.setProgress(0);
+        // clear and/or construct a message conditionally
         if (numbersAdapter.getCount() > 0) {
             numbersAdapter.clear();
-            msg = getResources().getString(R.string.toast_cleared);
+            notifyUser(R.string.toast_cleared);
         } else {
-            msg = getResources().getString(R.string.toast_no_items);
+            notifyUser(R.string.toast_no_items);
         }
-        
-        // reset the progress bar and notify
-        progressBar.setProgress(0);
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 
-        releaseLock(LOCK_TAG_CLEAR);
+        lock.release(LOCK_ID);
     }
 }
