@@ -1,5 +1,6 @@
 package io.github.user0x4a35.asyncexample;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 /**
@@ -27,9 +29,11 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     private static final String FILE_NAME = "numbers.txt";
     private static final String TAG = "MainActivity";
-    private ArrayAdapter<Integer> numbersAdapter;
-    private ProgressBar progressBar;
+    private WeakReference<ArrayAdapter<Integer>> numbersAdapterRef;
+    private WeakReference<ProgressBar> progBarRef;
+    private WeakReference<Context> ctxRef;
     private ProcessLock lock;
+    public String tempDude;
 
     /**
      * MAIN ACTIVITY : ON CREATE
@@ -40,17 +44,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ctxRef = new WeakReference<>(getApplicationContext());
         
         // setup the list view and its underlying array
-        numbersAdapter = new ArrayAdapter<>(
+        ArrayAdapter<Integer> numbersAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 R.layout.support_simple_spinner_dropdown_item
         );
         ListView listNumbers = findViewById(R.id.listNumbers);
         listNumbers.setAdapter(numbersAdapter);
+        numbersAdapterRef = new WeakReference<>(numbersAdapter);
 
         // setup the progress bar
-        progressBar = findViewById(R.id.progressBar);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progBarRef = new WeakReference<>(progressBar);
         progressBar.setMax(10);
 
         // set lock to released
@@ -63,12 +71,16 @@ public class MainActivity extends AppCompatActivity {
      * @param stringResID The resource ID of the message string
      */
     public void notifyUser(int stringResID) {
-        final Context CONTEXT = getApplicationContext();
         final int MSG_ID = stringResID;
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
+                Context context = ctxRef.get();
+                if (context == null) {
+                    return;
+                }
+
                 Toast.makeText(
-                        CONTEXT,
+                        context,
                         getResources().getText(MSG_ID),
                         Toast.LENGTH_LONG
                 ).show();
@@ -85,10 +97,13 @@ public class MainActivity extends AppCompatActivity {
         final int NUM = num;
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
+                ArrayAdapter<Integer> numbersAdapter = numbersAdapterRef.get();
+                if (numbersAdapter == null) {
+                    return;
+                }
                 numbersAdapter.add(NUM);
             }
         });
-
     }
 
     /**
@@ -98,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
     public void clearNumberList() {
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
+                ArrayAdapter<Integer> numbersAdapter = numbersAdapterRef.get();
+                if (numbersAdapter == null) {
+                    return;
+                }
                 numbersAdapter.clear();
             }
         });
@@ -112,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
         final int PROGRESS = progress;
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
+                ProgressBar progressBar = progBarRef.get();
+                if (progressBar == null) {
+                    return;
+                }
+
                 progressBar.setProgress(PROGRESS);
             }
         });
@@ -123,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void clearProgressBar() {
         updateProgressBar(0);
+        Context c = getApplicationContext();
+        Activity a = (Activity) c;
+
     }
 
     /**
@@ -134,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view The calling view (e.g. button)
      */
     public void createFile(View view) {
-        final Context CONTEXT = getApplicationContext();
         final int LOCK_ID = lock.acquire();
         if (LOCK_ID == 0) {
             notifyUser(R.string.toast_error_busy);
@@ -145,9 +171,15 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 FileOutputStream outputStream;
 
+                Context context = ctxRef.get();
+
                 // create the file
                 try {
-                    outputStream = CONTEXT.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                    if (context == null) {
+                        lock.release(LOCK_ID);
+                        return;
+                    }
+                    outputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
                 } catch (FileNotFoundException fnfe) {
                     notifyUser(R.string.toast_error_create);
                     Log.d(TAG, fnfe.getMessage());
@@ -205,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view The calling view (e.g. button)
      */
     public void loadFile(View view) {
-        final Context CONTEXT = getApplicationContext();
         final int LOCK_ID = lock.acquire();
         if (LOCK_ID == 0) {
             notifyUser(R.string.toast_error_busy);
@@ -224,7 +255,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // open the file
                 try {
-                    inputStream = CONTEXT.openFileInput(FILE_NAME);
+                    Context context = ctxRef.get();
+                    if (context == null) {
+                        lock.release(LOCK_ID);
+                        return;
+                    }
+                    inputStream = context.openFileInput(FILE_NAME);
                 } catch (FileNotFoundException fnfe) {
                     notifyUser(R.string.toast_error_no_file);
                     Log.d(TAG, fnfe.getMessage());
@@ -293,13 +329,20 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        progressBar.setProgress(0);
-        // clear and/or construct a message conditionally
-        if (numbersAdapter.getCount() > 0) {
-            numbersAdapter.clear();
-            notifyUser(R.string.toast_cleared);
-        } else {
-            notifyUser(R.string.toast_no_items);
+        ProgressBar progressBar = progBarRef.get();
+        if (progressBar != null) {
+            progressBar.setProgress(0);
+        }
+
+        ArrayAdapter<Integer> numbersAdapter = numbersAdapterRef.get();
+        if (numbersAdapter != null) {
+            // clear and/or construct a message conditionally
+            if (numbersAdapter.getCount() > 0) {
+                numbersAdapter.clear();
+                notifyUser(R.string.toast_cleared);
+            } else {
+                notifyUser(R.string.toast_no_items);
+            }
         }
 
         lock.release(LOCK_ID);
