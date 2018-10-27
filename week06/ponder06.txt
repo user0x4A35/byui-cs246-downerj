@@ -27,32 +27,37 @@ I have no further questions at this time.
 
 5. A common Android-related interview question is "If you need to update the GUI from a background thread, how can you accomplish this?". How would you answer that question?
 Android allows for two options:
-1. Inside of the Runnable inner-/subclass method, create *its own* new instance of Runnable (e.g. using
-<Activity>.runOnUiThread)
-
+1. Inside of the Runnable inner-/subclass method, create another Runnable subclass that runs on the UI thread
+(e.g. using <MainActivity>.runOnUiThread()) and do the UI updates in that inner-inner class "run" method.
+2. Using AsyncTask, process updates to the UI on <AsyncTask>.onProgressUpdate() and call that function from
+within <AsyncTask>.doInBackground() using publishProgress().
 
 6. How would you explain to a new developer what a software design pattern is?
-
+A software design pattern is essentially a reusable (generic) model for how to solve a software design problem.
+Each software design model reflects a different thought process and is better suited for its own type of problem.
+Software design patterns allow programmers to use real-world problem solving skills to create software solutions.
 
 
 7. Give an example of when you would use the Strategy pattern other than the examples given in the reading.
-
+The Strategy pattern is used to convert an algorithm (ultimately) into code. The Strategy pattern rarely uses
+objects, states or asynchronous events like other patterns/models do; instead, it simply "gets from A to B"
+using discrete, logical steps.
 
 
 8. Of all of the resources and tutorials in this week's assignments, which was the _most_ helpful to you and why?
-
+The Android resources (AsyncTask, implementing Runnable threads, etc.) were the most helpful.
 
 
 9. Of all of the resources and tutorials in this week's assignments, which was the _least_ helpful to you and why?
-
+The Software Design Patterns was not very applicable this week.
 
 
 10. How many hours did you spend on this class this week?
 
-06 Prepare - 
-06 Teach - 
-06 Prove -
-06 Ponder -
+06 Prepare - 1.0
+06 Teach - 2.0
+06 Prove - 3.0
+06 Ponder - 0.5
 ----------------------------
-Total Hours - 
+Total Hours - 6.5
 
