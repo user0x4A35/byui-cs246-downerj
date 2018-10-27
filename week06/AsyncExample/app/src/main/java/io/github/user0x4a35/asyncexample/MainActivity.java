@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private WeakReference<ArrayAdapter<Integer>> numbersAdapterRef;
     private WeakReference<ProgressBar> progBarRef;
-    private WeakReference<Context> ctxRef;
     private ProcessLock lock;
-    public String tempDude;
 
     /**
      * MAIN ACTIVITY : ON CREATE
@@ -44,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ctxRef = new WeakReference<>(getApplicationContext());
         
         // setup the list view and its underlying array
         ArrayAdapter<Integer> numbersAdapter = new ArrayAdapter<>(
@@ -72,9 +68,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void notifyUser(int stringResID) {
         final int MSG_ID = stringResID;
-        MainActivity.this.runOnUiThread(new Runnable() {
+
+        // if this were in a separate class, we would store the MainActivity context
+        // and then use "((MainActivity) context)" instead of "this"
+        this.runOnUiThread(new Runnable() {
             public void run() {
-                Context context = ctxRef.get();
+                Context context = getApplicationContext();
                 if (context == null) {
                     return;
                 }
@@ -95,12 +94,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addNumberToList(int num) {
         final int NUM = num;
-        MainActivity.this.runOnUiThread(new Runnable() {
+
+        // if this were in a separate class, we would store the MainActivity context
+        // and then use "((MainActivity) context)" instead of "this"
+        this.runOnUiThread(new Runnable() {
             public void run() {
                 ArrayAdapter<Integer> numbersAdapter = numbersAdapterRef.get();
                 if (numbersAdapter == null) {
                     return;
                 }
+
                 numbersAdapter.add(NUM);
             }
         });
@@ -111,7 +114,10 @@ public class MainActivity extends AppCompatActivity {
      * This clears the activity's number list on the UI thread.
      */
     public void clearNumberList() {
-        MainActivity.this.runOnUiThread(new Runnable() {
+
+        // if this were in a separate class, we would store the MainActivity context
+        // and then use "((MainActivity) context)" instead of "this"
+        this.runOnUiThread(new Runnable() {
             public void run() {
                 ArrayAdapter<Integer> numbersAdapter = numbersAdapterRef.get();
                 if (numbersAdapter == null) {
@@ -129,7 +135,10 @@ public class MainActivity extends AppCompatActivity {
      */
     public void updateProgressBar(int progress) {
         final int PROGRESS = progress;
-        MainActivity.this.runOnUiThread(new Runnable() {
+
+        // if this were in a separate class, we would store the MainActivity context
+        // and then use "((MainActivity) context)" instead of "this"
+        this.runOnUiThread(new Runnable() {
             public void run() {
                 ProgressBar progressBar = progBarRef.get();
                 if (progressBar == null) {
@@ -147,9 +156,21 @@ public class MainActivity extends AppCompatActivity {
      */
     public void clearProgressBar() {
         updateProgressBar(0);
-        Context c = getApplicationContext();
-        Activity a = (Activity) c;
+    }
 
+    /**
+     * MAIN ACTIVITY : SLEEP
+     * This will call Thread.sleep(), creating a pause for a given
+     * number of milliseconds of time.
+     * If an error occurs, then the sleep will simply end.
+     * @param millis The number of milliseconds to sleep
+     */
+    public void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ie) {
+            Log.d(TAG, ie.getMessage());
+        }
     }
 
     /**
@@ -170,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 FileOutputStream outputStream;
-
-                Context context = ctxRef.get();
+                Context context;
 
                 // create the file
                 try {
+                    context = getApplicationContext();
                     if (context == null) {
                         lock.release(LOCK_ID);
                         return;
@@ -202,9 +223,7 @@ public class MainActivity extends AppCompatActivity {
                         updateProgressBar(++count);
 
                         // wait for 1/4 second
-                        Thread.sleep(250);
-                    } catch (InterruptedException ie) {
-                        Log.d(TAG, ie.getMessage());
+                        sleep(250);
                     } catch (IOException ioe) {
                         notifyUser(R.string.toast_error_write);
                         Log.d(TAG, ioe.getMessage());
@@ -246,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 FileInputStream inputStream;
+                Context context;
                 StringBuilder buffer = new StringBuilder();
 
                 // initialize the progress & bar
@@ -255,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // open the file
                 try {
-                    Context context = ctxRef.get();
+                    context = getApplicationContext();
                     if (context == null) {
                         lock.release(LOCK_ID);
                         return;
@@ -288,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                             addNumberToList(num);
 
                             // wait for 1/4 second
-                            Thread.sleep(250);
+                            sleep(250);
                         }
                     } catch (IOException ioe) {
                         notifyUser(R.string.toast_error_read);
@@ -298,8 +318,6 @@ public class MainActivity extends AppCompatActivity {
                     } catch (NumberFormatException nfe) {
                         notifyUser(R.string.toast_error_nan);
                         Log.d(TAG, nfe.getMessage());
-                    } catch (InterruptedException ie) {
-                        Log.d(TAG, ie.getMessage());
                     }
                 } while (ch >= 0);
 

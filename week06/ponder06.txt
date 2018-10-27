@@ -1,0 +1,58 @@
+# 06 Ponder : Weekly Reflection
+
+1. Describe how multithreading works.
+The operating system can create various "threads" or independent concurrent processes for any given program and/or
+for multiple programs. Each thread runs independent of other threads—unless synchronization is necessary at any
+given point—and can run virtually (or literally, with the right hardware) at the same time as those other threads.
+This is how, for example, a web page lets the user browse and interact with content while data is simultaneously
+sent to and retrieved from the server without a "laggy" experience.
+
+
+2. What is the difference between sublcassing Thread and implementing Runnable?
+Subclassing the Thread class forces the child class(es) to inherit all of the overhead associated with Thread,
+including any and all unused and unwanted functions. Implementing Runnable, however, is much more lenient as
+the only function to "inherit" (implement) is "public void run" which requires no other functionality to be
+used, as there are no other inherited methods or properties.
+
+
+3. What was one of the most difficult challenges your team faced working on the multithreading assignment?
+Our team struggled a bit with implementing the device file I/O as opposed to normal macOS/Windows file I/O.
+I also struggled a bit with passing variables to inner classes until I realized I needed to send "final" versions
+of them.
+
+
+4. After completing the assignments this week, what questions do you still have?
+I have no further questions at this time.
+
+
+5. A common Android-related interview question is "If you need to update the GUI from a background thread, how can you accomplish this?". How would you answer that question?
+Android allows for two options:
+1. Inside of the Runnable inner-/subclass method, create *its own* new instance of Runnable (e.g. using
+<Activity>.runOnUiThread)
+
+
+6. How would you explain to a new developer what a software design pattern is?
+
+
+
+7. Give an example of when you would use the Strategy pattern other than the examples given in the reading.
+
+
+
+8. Of all of the resources and tutorials in this week's assignments, which was the _most_ helpful to you and why?
+
+
+
+9. Of all of the resources and tutorials in this week's assignments, which was the _least_ helpful to you and why?
+
+
+
+10. How many hours did you spend on this class this week?
+
+06 Prepare - 
+06 Teach - 
+06 Prove -
+06 Ponder -
+----------------------------
+Total Hours - 
+
