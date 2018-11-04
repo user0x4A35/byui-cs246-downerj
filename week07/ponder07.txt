@@ -1,44 +1,68 @@
 # 07 Ponder : Weekly Reflection
 
 1. Did you fulfill all aspects of your team agreement this week, or if there was an infraction, did you fulfill the appropriate accountability measure? (If not, please explain.)
-
+Yes. We discussed the basic model, view and milestones in class. I then synthesized the milestone and design
+documents for I-Learn.
 
 
 2. Did you hold your teammates accountable for upholding their commitments this week? (If not, please explain.)
-
+Yes. Each member contributed a major aspect of both the milestone and design documents, so no negative consequences
+needed to be meted out.
 
 
 3. What is the purpose of a UML class diagram?
-
+Unified Modeling Langauge was invented to help developers apply abstract application models into concrete and
+discernable parts and logic, (hypothetically) without the need for a specific, target programming language. In other
+words, a UML diagram represents the model in a way that virtually any programmer could understand and apply in their
+respective languages, APIs, etc.
+UML class diagrams are also very useful for visualizing object-oriented relationships, such as inheritance
+hierarchies, implementations, dependencies, etc.
 
 
 4. What are some benefits of the MVC pattern?
-
+The MVC pattern allows programmers to logically decouple the logic for different parts of the program. By implementing
+the MVC pattern, developers can each work on their respective parts of the application with minimal dependency on the
+details of other parts of the program.
 
 
 5. What are some drawbacks to the MVC pattern?
-
+By implementing the MVC pattern, simplicity and even efficiency may be sacrificed. For example, the MVC pattern almost
+always includes multiple function calls between sections of the program which, if the developers aren't careful, can
+lead to increased overhead and a larger memory footprint.
 
 
 6. A common design-pattern interview question is "Describe the difference between the MVC pattern and the MVP variant.". How would you answer that question?
-
+The Model-View-Controller (MVC) pattern completely separates the Controller logic from the View logic.
+The Model-View-Presenter (MVP) pattern, on the other hand, blurs the lines between View and Controller. In this
+scenario, the Controller is instead considered a Presenter as it can direcly interact with the UI.
+As examples:
+- The MVC pattern is the most common paradigm for web apps: the HTML ideally has the triggers for the JavaScript that
+will update the view.
+- The MVP pattern is the most common paradigm for Android apps: the Activity Java classes almost always interact
+directly with the associated UI Views.
 
 
 7. How would you explain to a new developer why they should go through the trouble of using the MVC pattern?
-
+- The MVC pattern is *the* most popular paradigm for apps involving UI as well as networking (to name a couple instances).
+Learning this pattern will help the developer better understand the logic used by other developers in the industry.
+- The MVC pattern is arguably the most logical for UI and presentation. At this point in software history, UI views
+are changed, updated or even replaced at regular intervals, and the decoupling nature of the MVC pattern allows new
+views to be implemented with little to no effect on the application model.
 
 
 8. Give an example of when the MVC pattern would be overkill for a project.
-
+- System apps (e.g. console apps) have very little UI outside of text. Indeed, some coloring is available on certain
+command line interpreters, but MVC could become cumbersome when multiple parts of the program should be able to
+print directly to the console.
 
 
 9. How many hours did you spend on this class this week?
 
-07 Prepare - 
-07 Teach - 
-07 Prove -
-07 Ponder -
-07 Team Project - 
+07 Prepare - 1.0
+07 Teach - 0.5
+07 Prove - 0.5
+07 Ponder - 0.5
+07 Team Project - 3.5
 ----------------------------
-Total Hours - 
+Total Hours - 6.0
 
