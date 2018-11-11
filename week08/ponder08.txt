@@ -1,0 +1,67 @@
+# 08 Ponder : Weekly Reflection
+
+1. What is the purpose of a unit test?
+A unit test is designed to test the functionality of specific parts of code, such as classes, functions, etc.
+This is opposed to, for example, integration tests which test the app as a whole.
+
+
+2. What are the pros and cons of Test Driven Development?
+Pros:
+- TDD helps developers understand all the necessary parts from the beginning and thereby ensure that all parts are
+working correctly before release.
+- TDD helps quantify the goals by providing discrete targets--in other words, it gives the developer a specific
+test to pass as he/she plans what and how much to code at any given time.
+Cons:
+- TDD has a very large learning curve which can be a struggle for new software teams.
+- TDD tests can be very hard to write because it's difficult to know what possible errors to look for.
+
+
+3. How are assert statements used by JUnit for unit testing?
+JUnit has various assert statements that ensure two values are either equal, not equal, true, false, etc.
+If an assert statement fails, then an exception is thrown that signals to the test engine that a failure happened at
+a specific line of code.
+
+
+4. A common design-pattern interview question is "Describe a situation where you would use the Observer pattern.". How would you answer that question?
+One situation where the observer pattern is most useful is in UI, especially in graphics simulations where keyboard,
+mouse, touch, and other user input is constant. There is an observer listening for user input asynchronously that
+sends signals/updates to the central simulation engine which then handles the changes in its own synchronous loop.
+
+
+5. Of all of the resources and tutorials in this week's assignments, which was the _most_ helpful to you and why?
+The JUnit resource was the most helpful--it had the least fluff.
+
+
+6. Of all of the resources and tutorials in this week's assignments, which was the _least_ helpful to you and why?
+Almost all other TDD articles were a bit tedious to read, with quite a bit off drawn-out fluff.
+
+
+7. How would you say your team project is proceeding so far?
+The team project is going well, but mostly thanks to Klevin. His knowledge of databases plus his experience writing
+apps has helped immensely, and he's really hit the ground running.
+Inessa dropped the class, but her absence thankfully hasn't put us back too far since she was struggling to keep up
+anyway.
+
+
+8. Did anyone on your team have any violations/infractions of the Team Agreement this week? If so, were the punishments enforced?
+No punishments were needed this week for Klevin. I didn't work nearly as hard as he did this week on the project, but
+I did attend both meetings that we scheduled. The only infraction I might have committed was simply not doing my part
+on my own time before the end of the week——I have quite a bit to catch up on before the first deliverable.
+
+
+9. Are there any concerns regarding your project or your team that you want the teacher to know about?
+I have no concerns at this time.
+
+
+10. How many hours did you spend on this class this week?
+
+
+
+08 Prepare - 0.75
+08 Teach - 0.25
+08 Prove - 0.50
+08 Ponder - 0.25
+08 Team Project - 1.25
+----------------------------
+Total Hours - 3.00
+
