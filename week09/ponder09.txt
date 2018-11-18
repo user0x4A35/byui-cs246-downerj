@@ -1,0 +1,27 @@
+# 09 Ponder : Status Report
+
+1. What features were completed in your project this week?
+This sprint/milestone, we added all of the views (activities) for User Login, User Registration, User Account Details, Income Transactions and Expense Transactions.
+We also added all of the Firebase API code which has greatly advanced our ability to see concrete results in real time.
+
+
+2. What bugs were fixed in your project this week?
+This week, we've fixed bugs related to the views, particularly how the icons and buttons appear (namely, basic color schemes).
+We also fixed bugs related to duplicating Activities (e.g. the Incomes Activity from the Expenses Activity).
+
+
+3. Did anyone on your team have an infraction this week?
+We did not properly evaluate infractions, but if anything, I amresponsible mainly for not working on as much as I said I would during my own time. No infractions were committed relating to group meetings.
+
+
+4. If someone did have an infraction, was the penalty paid?
+No penalties were paid.
+
+
+5. How many hours did you spend on your team project this week?
+I personally spend about 4.5 hours on my project this week.
+
+
+6. Are there any issues related to your team or project you want to tell your instructor about?
+I have no issues, no. Klevin has been very helpful what with his expertise and diligence. I've been treading at most at 1/3 of his pace getting this project done.
+
