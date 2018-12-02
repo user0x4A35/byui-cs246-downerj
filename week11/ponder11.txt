@@ -1,0 +1,25 @@
+# 11 Ponder : Status Report
+
+1. What features were completed in your project this week?
+- Modifying & deleting data on the cloud from within the app
+- Computing and displaying basic statistics
+- A swipeable RecycleView was implemented for transactions
+
+2. What bugs were fixed in your project this week?
+- Load lag was removed by switching from Activities to Fragments
+
+
+3. Did anyone on your team have an infraction this week?
+No
+
+
+4. If someone did have an infraction, was the penalty paid?
+N/A
+
+
+5. How many hours did you spend on your team project this week?
+7
+
+
+6. Are there any issues related to your team or project you want to tell your instructor about?
+I have no issues regarding Klevin. I myself have been mismanaging my time, and it's been difficult to understand all of the pieces behind Android UI.
